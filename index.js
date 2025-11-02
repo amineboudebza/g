@@ -149,7 +149,7 @@ ${getID.meta.type == 'bundle' ? 'هذا عرض خاص بbundle':''}
 
                     if (productData.image_url?.startsWith("http")) {
                         await bot.telegram.sendPhoto(
-                            "@BESTPROMO1",
+                            "@autocopy21",
                             { url: productData.image_url },
                             { caption: message }
                         );
@@ -188,5 +188,6 @@ ${getID.meta.type == 'bundle' ? 'هذا عرض خاص بbundle':''}
         keepAppRunning();
     });
 })();
+
 
 
