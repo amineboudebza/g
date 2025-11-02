@@ -1,3 +1,4 @@
+
 const { TelegramClient } = require("telegram");
 const { StringSession } = require("telegram/sessions");
 const fs = require("fs");
@@ -142,11 +143,15 @@ async function monitorChannels(client) {
                     if (Array.isArray(postInfo.coupons) && postInfo.coupons.length > 0) {
                         for (const coupon of postInfo.coupons) {
                             message += `🎟️ ${coupon}\n`;
-                        ❇️المنتج ♦️
+                            ❇️المنتج ♦️
+                        }
+                    }
 
-                    // الرابط☑️
+                    // الرابط
                     message += `✅ رابط : ${generate}\n\n`;
-👩‍🚀إستخدم البوت قبل كل عملية شراء
+
+                    // معلومات إضافية
+                    message += `🔥👩‍🚀إستخدم البوت قبل كل عملية شراء
 @Amine13bot
 `;
 
@@ -194,4 +199,3 @@ async function monitorChannels(client) {
         keepAppRunning();
     });
 })();
-
