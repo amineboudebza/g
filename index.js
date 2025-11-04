@@ -142,7 +142,6 @@ async function monitorChannels(client) {
                     if (Array.isArray(postInfo.coupons) && postInfo.coupons.length > 0) {
                         for (const coupon of postInfo.coupons) {
                             message += `🎟️ ${coupon}\n`;
-                            ❇️ تـخفــيض لـ
                         }
                     }
 
@@ -198,4 +197,3 @@ async function monitorChannels(client) {
         keepAppRunning();
     });
 })();
-
