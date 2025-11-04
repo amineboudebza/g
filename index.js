@@ -142,6 +142,7 @@ async function monitorChannels(client) {
                     if (Array.isArray(postInfo.coupons) && postInfo.coupons.length > 0) {
                         for (const coupon of postInfo.coupons) {
                             message += `🎟️ ${coupon}\n`;
+                            ❇️ تـخفــيض لـ
                         }
                     }
 
@@ -149,10 +150,8 @@ async function monitorChannels(client) {
                     message += `✅ رابط الشراء: ${generate}\n\n`;
 
                     // معلومات إضافية
-                    message += `🔥 لا تنسى استخدام البوت قبل كل عملية شراء تقومون بها ⬇️
-@Rbhcoinbot
-
-✨ بوت تتبع طرود @Rbtrackingbot
+                    message += `👩‍🚀إستخدم البوت قبل كل عملية شراء
+@Amine13bot
 `;
 
                     if (getID.meta.type === 'bundle') {
@@ -199,3 +198,4 @@ async function monitorChannels(client) {
         keepAppRunning();
     });
 })();
+
