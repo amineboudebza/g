@@ -141,7 +141,8 @@ async function monitorChannels(client) {
                     // الكوبونات
                     if (Array.isArray(postInfo.coupons) && postInfo.coupons.length > 0) {
                         for (const coupon of postInfo.coupons) {
-                            message += `🎟️ ${coupon}\n`;
+                            message += `🎟️ ${coupon}\n`;  
+                         ❇️المنتج 🔻  
                         }
                     }
 
@@ -197,3 +198,4 @@ async function monitorChannels(client) {
         keepAppRunning();
     });
 })();
+
