@@ -135,7 +135,7 @@ async function monitorChannels(client) {
 
                     // السعر
                     if (postInfo.price !== 'null') {
-                        message += `💵السعر بعد التخفيض: $ : $${postInfo.price}\n`;
+                        message += `💵السعر بعد التخفيض:  :$${postInfo.price}\n`;
                     }
 
                     // الكوبونات
@@ -146,7 +146,7 @@ async function monitorChannels(client) {
                     }
 
                     // الرابط
-                    message += `✅🔗: ${generate}\n\n`;
+                    message += `🔗: ${generate}\n\n`;
 
                     // معلومات إضافية
                     message += `👩‍🚀إستخدم البوت قبل كل عملية شراء
@@ -197,4 +197,5 @@ async function monitorChannels(client) {
         keepAppRunning();
     });
 })();
+
 
