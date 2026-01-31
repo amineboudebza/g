@@ -135,7 +135,7 @@ async function monitorChannels(client) {
 
                     // السعر
                     if (postInfo.price !== 'null') {
-                        message += `💵السعر بعد التخفيض:  :$${postInfo.price}\n`;
+                        message += `💵السعر بعد التخفيض :$${postInfo.price}\n`;
                     }
 
                     // الكوبونات
@@ -197,5 +197,6 @@ async function monitorChannels(client) {
         keepAppRunning();
     });
 })();
+
 
 
