@@ -146,7 +146,7 @@ async function monitorChannels(client) {
                     }
 
                     // الرابط
-                    message += `🔗: ${generate}\n\n`;
+                    message += `🔗 ${generate}\n\n`;
 
                     // معلومات إضافية
                     message += `👩‍🚀إستخدم البوت قبل كل عملية شراء
@@ -197,6 +197,7 @@ async function monitorChannels(client) {
         keepAppRunning();
     });
 })();
+
 
 
 
