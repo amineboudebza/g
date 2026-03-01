@@ -135,7 +135,7 @@ async function monitorChannels(client) {
 
                     // السعر
                     if (postInfo.price !== 'null') {
-                        message += `💵السعر بعد التخفيض :$${postInfo.price}\n`;
+                        message += `✅ السعر: $${postInfo.price}\n`;
                     }
 
                     // الكوبونات
@@ -146,11 +146,13 @@ async function monitorChannels(client) {
                     }
 
                     // الرابط
-                    message += `🔗 ${generate}\n\n`;
+                    message += `✅ رابط الشراء: ${generate}\n\n`;
 
                     // معلومات إضافية
-                    message += `👩‍🚀إستخدم البوت قبل كل عملية شراء
-@Amine13bot
+                    message += `🔥 لا تنسى استخدام البوت قبل كل عملية شراء تقومون بها ⬇️
+@Rbhcoinbot
+
+✨ بوت تتبع طرود @Rbtrackingbot
 `;
 
                     if (getID.meta.type === 'bundle') {
@@ -197,7 +199,4 @@ async function monitorChannels(client) {
         keepAppRunning();
     });
 })();
-
-
-
 
