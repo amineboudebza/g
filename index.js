@@ -146,13 +146,11 @@ async function monitorChannels(client) {
                     }
 
                     // الرابط
-                    message += `✅ رابط الشراء: ${generate}\n\n`;
+                    message += `✅🔗: ${generate}\n\n`;
 
                     // معلومات إضافية
-                    message += `🔥 لا تنسى استخدام البوت قبل كل عملية شراء تقومون بها ⬇️
-@Rbhcoinbot
-
-✨ بوت تتبع طرود @Rbtrackingbot
+                    message += `🔥 👩‍🚀إستخدم البوت قبل كل عملية شراء
+http://t.me/Amine13bot
 `;
 
                     if (getID.meta.type === 'bundle') {
