@@ -17,7 +17,7 @@ const app = express();
 const port = 3000;
 const bot = new Telegraf(process.env.token);
 
-const apiId = process.env.idapp;
+const apiId = Number(process.env.idapp);
 const apiHash = process.env.hashapp;
 const SESSION_FILE = "session.txt";
 const stringSession = new StringSession(process.env.stringSession);
@@ -30,9 +30,8 @@ let channelList = [];
 // =======================
 // Helpers
 // =======================
-
 function removeLeadingNumber(str) {
-    return str.replace(/^\d+\s*/, ""); // يشيل الأرقام والمسافة في البداية
+    return str.replace(/^\d+\s*/, "");
 }
 
 function formatChannelName(name) {
@@ -73,7 +72,6 @@ function keepAppRunning() {
 // =======================
 // Monitor Channels
 // =======================
-
 async function monitorChannels(client) {
     await client.start({
         phoneNumber: () => readlineSync.question("📱 رقم الهاتف: "),
@@ -82,7 +80,6 @@ async function monitorChannels(client) {
         onError: (err) => console.error("❌ خطأ:", err.message),
     });
 
-    // حفظ السيشن
     fs.writeFileSync(SESSION_FILE, client.session.save(), "utf-8");
     console.log("✅ تم حفظ الجلسة");
 
@@ -99,48 +96,76 @@ async function monitorChannels(client) {
                     const postInfo = extractPriceAndLink(latestPost);
                     const getID = await idCatcher(postInfo.link);
 
+                    if (!getID || !getID.id) {
+                        console.log(`⚠️ لم يتم العثور على ID صالح في: ${channel}. (الرابط: ${postInfo.link})`);
+                        await savePost(channel, latestPost);
+                        continue;
+                    }
+
                     let productList = Array.isArray(prod.idProduct) ? prod.idProduct : [];
                     if (productList.includes(getID.id)) {
                         console.log(`⚠️ المنتج موجود بالفعل (id=${getID.id})`);
                         continue;
                     }
 
-                    // تحديث قاعدة البيانات
                     productList.push(getID.id);
                     await products.updateUser(10, { idProduct: productList });
 
-                    // جلب بيانات المنتج
                     const productData = await aliHelper.getProductData(getID.id);
                     const generate = await aliHelper.generateLink(
                         process.env.cook,
                         getID.id,
                         getID.meta.type
                     );
-                    console.log(`generate ===>${generate}`) 
 
-                    const message = `
-✅${productData.title}
+                    console.log(`generate ===>${generate}`);
 
-✅السعر ${postInfo.price}$
+                    // =================== ✅ [التصحيح الجديد هنا] ===================
+                    
+                    // [الشرط الجديد]: التأكد من وجود العنوان والصورة
+                    if (!productData || !productData.title || !productData.image_url?.startsWith("http")) {
+                        console.error(`❌ فشل في جلب بيانات المنتج أو الصورة (linkpreview) لـ ID: ${getID.id}. سيتم تخطي هذا المنشور.`);
+                        await savePost(channel, latestPost); // احفظ المنشور لتجنب التكرار
+                        continue; // اذهب إلى القناة التالية (هذا هو الحل المطلوب)
+                    }
 
-✅رابط 
-${generate}
+                    // إذا نجح كل شيء، قم ببناء الرسالة
+                    let message = `✅ ${productData.title}\n\n`;
+                    let imageUrl = { url: productData.image_url };
 
-🔥لا تنسى استخدام البوت قبل كل عملية شراء تقومون بها ⬇️
+                    // السعر
+                    if (postInfo.price !== 'null') {
+                        message += `✅ السعر: $${postInfo.price}\n`;
+                    }
+
+                    // الكوبونات
+                    if (Array.isArray(postInfo.coupons) && postInfo.coupons.length > 0) {
+                        for (const coupon of postInfo.coupons) {
+                            message += `🎟️ ${coupon}\n`;
+                        }
+                    }
+
+                    // الرابط
+                    message += `✅ رابط الشراء: ${generate}\n\n`;
+
+                    // معلومات إضافية
+                    message += `🔥 لا تنسى استخدام البوت قبل كل عملية شراء تقومون بها ⬇️
 @Rbhcoinbot
 
-✨بوت تتبع طرود @Rbtrackingbot
+✨ بوت تتبع طرود @Rbtrackingbot
+`;
 
-${getID.meta.type == 'bundle' ? 'هذا عرض خاص بbundle':''}
-                    `;
-
-                    if (productData.image_url?.startsWith("http")) {
-                        await bot.telegram.sendPhoto(
-                            "@BESTPROMO1",
-                            { url: productData.image_url },
-                            { caption: message }
-                        );
+                    if (getID.meta.type === 'bundle') {
+                        message += `🎁 هذا عرض خاص بـ bundle\n`;
                     }
+                    // ================================================================
+
+                    // إرسال الرسالة (فقط كصورة)
+                    await bot.telegram.sendPhoto(
+                        "@autocopy21",
+                        imageUrl,
+                        { caption: message }
+                    );
 
                     await savePost(channel, latestPost);
                 } else {
@@ -158,7 +183,6 @@ ${getID.meta.type == 'bundle' ? 'هذا عرض خاص بbundle':''}
 // =======================
 // Main
 // =======================
-
 (async () => {
     const users = await channels.usersDb();
     channelList = users.map(u => formatChannelName(u.name));
@@ -175,8 +199,3 @@ ${getID.meta.type == 'bundle' ? 'هذا عرض خاص بbundle':''}
         keepAppRunning();
     });
 })();
-
-
-
-
-
